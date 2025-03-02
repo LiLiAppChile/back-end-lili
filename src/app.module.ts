@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { MongooseConfigService } from './config/mongoose.config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // Carga las variables de entorno
-    MongooseModule.forRootAsync({
-      useClass: MongooseConfigService,
-    }),
+    ConfigModule.forRoot(),
     UsersModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
