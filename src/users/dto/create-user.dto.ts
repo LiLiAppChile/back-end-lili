@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  isBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -44,4 +50,18 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   createdAt?: string;
+
+  @isBoolean()
+  @ApiProperty({
+    description: 'Usuario eliminado',
+    default: false,
+  })
+  delete: boolean = false;
+
+  @isBoolean()
+  @ApiProperty({
+    description: 'Usuario validado',
+    default: false,
+  })
+  validUser: boolean = false;
 }
