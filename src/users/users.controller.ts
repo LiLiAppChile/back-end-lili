@@ -7,13 +7,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { User } from '../interfaces/user.interface';
+import { User } from '../users/models/users.model';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from './users.service';
+import { UsersService } from './services/users.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
-@ApiTags('usuarios')
-@Controller('usuarios')
+@ApiTags('users')
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,7 +32,21 @@ export class UsersController {
   })
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.create(createUserDto);
+    const user = new User(
+      createUserDto.name,
+      createUserDto.email,
+      createUserDto.password,
+      createUserDto.phone,
+      {
+        id: createUserDto.id,
+        createdAt: createUserDto.createdAt,
+      }
+    );
+
+    user.markAsDeleted();
+    user.validateUser();
+
+    return this.usersService.create(user);
   }
 
   @ApiOperation({ summary: 'Obtener todos los usuarios' })
