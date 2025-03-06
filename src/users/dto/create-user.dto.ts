@@ -1,47 +1,58 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+  MaxLength,
+  Matches,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
-  @ApiPropertyOptional({ description: 'ID', example: '123abc' })
-  @IsOptional()
+  @ApiProperty({ description: 'UID proporcionado por Firebase Authentication', example: 'abc123xyz' })
   @IsString()
-  id?: string;
+  @IsNotEmpty()
+  uid: string;
 
   @ApiProperty({ description: 'Nombre', example: 'Alberto Gallardo' })
   @IsString()
   @IsNotEmpty()
+  @MinLength(2, { message: 'El nombre debe tener al menos 2 caracteres.' })
+  @MaxLength(50, { message: 'El nombre no puede exceder los 50 caracteres.' })
   name: string;
 
-  @ApiProperty({
-    description: 'Email',
-    example: 'john@example.com',
-  })
+  @ApiProperty({ description: 'Email', example: 'john@example.com' })
   @IsEmail()
   @IsString()
   @IsNotEmpty()
   email: string;
 
-  @ApiProperty({
-    description: 'Clave',
-    example: 'password123',
-  })
+  @ApiProperty({ description: 'Número de teléfono', example: '+1234567890' })
   @IsString()
   @IsNotEmpty()
-  password: string;
-
-  @ApiProperty({
-    description: 'Numero de telefono',
-    example: '+1234567890',
+  @Matches(/^\+?\d{10,15}$/, {
+    message: 'El número de teléfono debe ser válido y tener entre 10 y 15 dígitos.',
   })
-  @IsString()
-  @IsNotEmpty()
   phone: string;
 
-  @ApiPropertyOptional({
-    description: 'Timestamp',
-    example: '2023-06-21T14:56:32Z',
-  })
+  @ApiPropertyOptional({ description: 'Timestamp', example: '2023-06-21T14:56:32Z' })
   @IsOptional()
   @IsString()
   createdAt?: string;
+
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Usuario eliminado',
+    default: false,
+  })
+  delete: boolean = false;
+
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Usuario validado',
+    default: false,
+  })
+  validUser: boolean = false;
 }
