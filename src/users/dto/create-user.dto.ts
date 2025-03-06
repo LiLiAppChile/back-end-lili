@@ -55,4 +55,3 @@ export class CreateUserDto {
     default: false,
   })
   validUser: boolean = false;
-}
