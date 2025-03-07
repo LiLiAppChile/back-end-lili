@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { db } from '../../config/firebase.config';
 import { User } from '../models/users.model';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -70,15 +71,35 @@ export class UsersService {
     return this.toUser(userDoc);
   }
 
-  async update(uid: string, updateUserDto: Partial<User>): Promise<User> {
+  async update(uid: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
       const userDoc = await this.usersCollection.doc(uid).get();
       if (!userDoc.exists) {
         throw new NotFoundException(`Usuario con UID ${uid} no encontrado`);
       }
-
-      await this.usersCollection.doc(uid).update(updateUserDto);
-
+  
+      if (!updateUserDto || Object.keys(updateUserDto).length === 0) {
+        throw new Error('No se proporcionaron datos para actualizar');
+      }
+  
+      const updateData = {
+        name: updateUserDto.name,
+        email: updateUserDto.email,
+        phone: updateUserDto.phone,
+        delete: updateUserDto.delete,
+        validUser: updateUserDto.validUser,
+      };
+  
+      const filteredUpdateData = Object.fromEntries(
+        Object.entries(updateData).filter(([_, value]) => value !== undefined)
+      );
+  
+      if (Object.keys(filteredUpdateData).length === 0) {
+        throw new Error('No se proporcionaron campos válidos para actualizar');
+      }
+  
+      await this.usersCollection.doc(uid).update(filteredUpdateData);
+  
       const updatedUserDoc = await this.usersCollection.doc(uid).get();
       return this.toUser(updatedUserDoc);
     } catch (error) {
