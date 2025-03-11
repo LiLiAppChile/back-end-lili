@@ -7,6 +7,8 @@ import {
   MinLength,
   MaxLength,
   Matches,
+  IsArray,
+  IsObject,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -37,22 +39,114 @@ export class CreateUserDto {
   })
   phone: string;
 
-  @ApiPropertyOptional({ description: 'Timestamp', example: '2023-06-21T14:56:32Z' })
+  @ApiProperty({ description: 'RUT del profesional', example: '12.345.678-9' })
+  @IsString()
+  @IsNotEmpty()
+  rut: string;
+
+  @ApiProperty({ description: 'Comuna donde reside el profesional', example: 'Santiago' })
+  @IsString()
   @IsOptional()
+  commune?: string;
+
+  @ApiPropertyOptional({ description: 'Registrado en el SII', example: true })
+  @IsBoolean()
+  @IsNotEmpty()
+  siiRegistered?: boolean;
+
+  @ApiPropertyOptional({ description: 'Tiene herramientas propias', example: true })
+  @IsBoolean()
+  @IsNotEmpty()
+  hasTools?: boolean;
+
+  @ApiPropertyOptional({ description: 'Tiene vehículo propio', example: true })
+  @IsBoolean()
+  @IsNotEmpty()
+  ownTransportation?: boolean;
+
+  @ApiProperty({
+    description: 'Lista de especialidades',
+    example: ['electricidad', 'gasfitería'],
+    type: [String],
+  })
+  @IsArray()
+  @IsNotEmpty()
+  specialties: string[];
+
+  @ApiPropertyOptional({ description: 'Descripción de la experiencia laboral', example: 'Más de 10 años de experiencia.' })
+  @IsString()
+  @IsOptional()
+  professionalExperience?: string;
+
+  @ApiPropertyOptional({ description: 'Texto personal sobre el profesional', example: 'Profesional dedicado y responsable.' })
+  @IsString()
+  @IsOptional()
+  personalDescription?: string;
+
+  @ApiPropertyOptional({
+    description: 'Comunas donde ofrece servicios',
+    example: ['Santiago', 'Providencia'],
+    type: [String],
+  })
+  @IsArray()
+  @IsOptional()
+  workAreas?: string[];
+
+  @ApiPropertyOptional({
+    description: 'Horario disponible',
+    example: { lunes: '09:00-18:00', viernes: '10:00-14:00' },
+    type: Object,
+  })
+  @IsObject()
+  @IsOptional()
+  availability?: { [key: string]: string };
+
+  @ApiPropertyOptional({ description: 'URL de la foto de perfil', example: 'https://example.com/profile.jpg' })
+  @IsString()
+  @IsOptional()
+  profilePicture?: string;
+
+  @ApiPropertyOptional({
+    description: 'Certificado de Antecedentes para Fines Especiales',
+    example: { url: 'https://example.com/background.pdf' },
+    type: Object,
+  })
+  @IsObject()
+  @IsOptional()
+  backgroundCertificate?: { url: string };
+
+  @ApiPropertyOptional({
+    description: 'Cédula de Identidad (URLs de archivos)',
+    example: { frontUrl: 'https://example.com/ci_front.jpg', backUrl: 'https://example.com/ci_back.jpg' },
+    type: Object,
+  })
+  @IsObject()
+  @IsOptional()
+  identityCard?: { frontUrl: string; backUrl: string };
+
+  @ApiPropertyOptional({
+    description: 'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)',
+    example: { url: 'https://example.com/certificate.pdf' },
+    type: Object,
+  })
+  @IsObject()
+  @IsOptional()
+  additionalCertificate?: { url: string };
+
+  @ApiPropertyOptional({ description: 'Cómo conoció la plataforma', example: 'Recomendación de un amigo' })
+  @IsString()
+  @IsOptional()
+  contactSource?: string;
+
+  @ApiPropertyOptional({ description: 'Timestamp', example: '2023-06-21T14:56:32Z' })
   @IsString()
   createdAt?: string;
 
+  @ApiProperty({ description: 'Usuario eliminado', default: false })
   @IsBoolean()
-  @ApiProperty({
-    description: 'Usuario eliminado',
-    default: false,
-  })
   delete: boolean = false;
 
+  @ApiProperty({ description: 'Usuario validado', default: false })
   @IsBoolean()
-  @ApiProperty({
-    description: 'Usuario validado',
-    default: false,
-  })
   validUser: boolean = false;
 }
