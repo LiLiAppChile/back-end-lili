@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from '../users/models/users.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './services/users.service';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { FirebaseAuthGuard } from '../FirebaseAuthGuard/firebase-auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -38,10 +40,25 @@ export class UsersController {
       createUserDto.name,
       createUserDto.email,
       createUserDto.phone,
+      createUserDto.rut,
+      createUserDto.specialties,
       {
         createdAt: createUserDto.createdAt,
         delete: createUserDto.delete || false,
         validUser: createUserDto.validUser || false,
+        commune: createUserDto.commune,
+        siiRegistered: createUserDto.siiRegistered,
+        hasTools: createUserDto.hasTools,
+        ownTransportation: createUserDto.ownTransportation,
+        professionalExperience: createUserDto.professionalExperience,
+        personalDescription: createUserDto.personalDescription,
+        workAreas: createUserDto.workAreas,
+        availability: createUserDto.availability,
+        profilePicture: createUserDto.profilePicture,
+        backgroundCertificate: createUserDto.backgroundCertificate,
+        identityCard: createUserDto.identityCard,
+        additionalCertificate: createUserDto.additionalCertificate,
+        contactSource: createUserDto.contactSource,
       }
     );
 
@@ -62,6 +79,8 @@ export class UsersController {
     type: [User],
   })
   @Get()
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth()
   async findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
@@ -75,6 +94,8 @@ export class UsersController {
   })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Get(':uid')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth()
   async findOne(@Param('uid') uid: string): Promise<User> {
     return this.usersService.findOne(uid);
   }
@@ -88,6 +109,8 @@ export class UsersController {
   })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Put(':uid')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth()
   async update(
     @Param('uid') uid: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -103,6 +126,8 @@ export class UsersController {
   })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Delete(':uid')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth()
   async delete(@Param('uid') uid: string): Promise<void> {
     return this.usersService.delete(uid);
   }
