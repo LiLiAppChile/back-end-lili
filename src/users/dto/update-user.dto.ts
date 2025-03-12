@@ -1,7 +1,6 @@
 import {
   IsBoolean,
   IsEmail,
-  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
@@ -10,77 +9,72 @@ import {
   IsArray,
   IsObject,
 } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
-export class CreateUserDto {
-  @ApiProperty({ description: 'UID proporcionado por Firebase Authentication', example: 'abc123xyz' })
+export class UpdateUserDto {
+  @ApiPropertyOptional({ description: 'Nombre', example: 'Nuevo Nombre' })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  uid: string;
-
-  @ApiProperty({ description: 'Nombre', example: 'Alberto Gallardo' })
-  @IsString()
-  @IsNotEmpty()
   @MinLength(2, { message: 'El nombre debe tener al menos 2 caracteres.' })
   @MaxLength(50, { message: 'El nombre no puede exceder los 50 caracteres.' })
-  name: string;
+  name?: string;
 
-  @ApiProperty({ description: 'Email', example: 'john@example.com' })
+  @ApiPropertyOptional({ description: 'Email', example: 'nuevo@email.com' })
+  @IsOptional()
   @IsEmail()
   @IsString()
-  @IsNotEmpty()
-  email: string;
+  email?: string;
 
-  @ApiProperty({ description: 'Número de teléfono', example: '+1234567890' })
+  @ApiPropertyOptional({ description: 'Número de teléfono', example: '+56987654321' })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @Matches(/^\+?\d{10,15}$/, {
     message: 'El número de teléfono debe ser válido y tener entre 10 y 15 dígitos.',
   })
-  phone: string;
+  phone?: string;
 
-  @ApiProperty({ description: 'RUT del profesional', example: '12.345.678-9' })
-  @IsString()
-  @IsNotEmpty()
-  rut: string;
-
-  @ApiProperty({ description: 'Comuna donde reside el profesional', example: 'Santiago' })
-  @IsString()
+  @ApiPropertyOptional({ description: 'RUT del profesional', example: '12.345.678-9' })
   @IsOptional()
+  @IsString()
+  rut?: string;
+
+  @ApiPropertyOptional({ description: 'Comuna donde reside el profesional', example: 'Santiago' })
+  @IsOptional()
+  @IsString()
   commune?: string;
 
   @ApiPropertyOptional({ description: 'Registrado en el SII', example: true })
+  @IsOptional()
   @IsBoolean()
-  @IsNotEmpty()
   siiRegistered?: boolean;
 
   @ApiPropertyOptional({ description: 'Tiene herramientas propias', example: true })
+  @IsOptional()
   @IsBoolean()
-  @IsNotEmpty()
   hasTools?: boolean;
 
   @ApiPropertyOptional({ description: 'Tiene vehículo propio', example: true })
+  @IsOptional()
   @IsBoolean()
-  @IsNotEmpty()
   ownTransportation?: boolean;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Lista de especialidades',
     example: ['electricidad', 'gasfitería'],
     type: [String],
   })
+  @IsOptional()
   @IsArray()
-  @IsNotEmpty()
-  specialties: string[];
+  specialties?: string[];
 
   @ApiPropertyOptional({ description: 'Descripción de la experiencia laboral', example: 'Más de 10 años de experiencia.' })
-  @IsString()
   @IsOptional()
+  @IsString()
   professionalExperience?: string;
 
   @ApiPropertyOptional({ description: 'Texto personal sobre el profesional', example: 'Profesional dedicado y responsable.' })
-  @IsString()
   @IsOptional()
+  @IsString()
   personalDescription?: string;
 
   @ApiPropertyOptional({
@@ -88,8 +82,8 @@ export class CreateUserDto {
     example: ['Santiago', 'Providencia'],
     type: [String],
   })
-  @IsArray()
   @IsOptional()
+  @IsArray()
   workAreas?: string[];
 
   @ApiPropertyOptional({
@@ -97,13 +91,13 @@ export class CreateUserDto {
     example: { lunes: '09:00-18:00', viernes: '10:00-14:00' },
     type: Object,
   })
-  @IsObject()
   @IsOptional()
+  @IsObject()
   availability?: { [key: string]: string };
 
   @ApiPropertyOptional({ description: 'URL de la foto de perfil', example: 'https://example.com/profile.jpg' })
-  @IsString()
   @IsOptional()
+  @IsString()
   profilePicture?: string;
 
   @ApiPropertyOptional({
@@ -111,8 +105,8 @@ export class CreateUserDto {
     example: { url: 'https://example.com/background.pdf' },
     type: Object,
   })
-  @IsObject()
   @IsOptional()
+  @IsObject()
   backgroundCertificate?: { url: string };
 
   @ApiPropertyOptional({
@@ -120,8 +114,8 @@ export class CreateUserDto {
     example: { frontUrl: 'https://example.com/ci_front.jpg', backUrl: 'https://example.com/ci_back.jpg' },
     type: Object,
   })
-  @IsObject()
   @IsOptional()
+  @IsObject()
   identityCard?: { frontUrl: string; backUrl: string };
 
   @ApiPropertyOptional({
@@ -129,24 +123,22 @@ export class CreateUserDto {
     example: { url: 'https://example.com/certificate.pdf' },
     type: Object,
   })
-  @IsObject()
   @IsOptional()
+  @IsObject()
   additionalCertificate?: { url: string };
 
   @ApiPropertyOptional({ description: 'Cómo conoció la plataforma', example: 'Recomendación de un amigo' })
-  @IsString()
   @IsOptional()
+  @IsString()
   contactSource?: string;
 
-  @ApiPropertyOptional({ description: 'Timestamp', example: '2023-06-21T14:56:32Z' })
-  @IsString()
-  createdAt?: string;
-
-  @ApiProperty({ description: 'Usuario eliminado', default: false })
+  @ApiPropertyOptional({ description: 'Usuario eliminado', example: false })
+  @IsOptional()
   @IsBoolean()
-  delete: boolean = false;
+  delete?: boolean;
 
-  @ApiProperty({ description: 'Usuario validado', default: false })
+  @ApiPropertyOptional({ description: 'Usuario validado', example: true })
+  @IsOptional()
   @IsBoolean()
-  validUser: boolean = false;
+  validUser?: boolean;
 }
