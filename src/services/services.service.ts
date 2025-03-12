@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { db } from '../config/firebase.config';
-import { Service } from '../interfaces/service.interface';
+import { Service } from './models/service.model';
 import { CreateServiceDto } from './dto/create-service.dto';
+import { UpdateServiceDto } from './dto/update-service.dto';
 
 @Injectable()
 export class ServicesService {
@@ -43,7 +44,7 @@ export class ServicesService {
 
   async update(
     id: string,
-    updateServiceDto: Partial<CreateServiceDto>,
+    updateServiceDto: UpdateServiceDto,
   ): Promise<Service> {
     const serviceDoc = await this.servicesCollection.doc(id).get();
     if (!serviceDoc.exists) {

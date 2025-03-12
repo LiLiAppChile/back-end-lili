@@ -7,7 +7,12 @@ import {
   IsDate,
 } from 'class-validator';
 
-export class CreateServiceDto {
+export class Service {
+  @ApiPropertyOptional({ description: 'ID del servicio', example: '123abc' })
+  @IsOptional()
+  @IsString()
+  id?: string;
+
   @ApiProperty({
     description: 'Nombre del servicio',
     example: 'Reparación de electricidad',
