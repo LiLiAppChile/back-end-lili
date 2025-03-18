@@ -8,6 +8,11 @@ export class WebhooksService {
   private readonly ordersCollection = db.collection('orders');
 
   async processJumpsellerWebhook(jumpsellerWebhookDto: JumpsellerWebhookDto) {
+    if (!jumpsellerWebhookDto.orderId || !jumpsellerWebhookDto.status) {
+      this.logger.error('Datos incompletos en el webhook');
+      throw new Error('Datos incompletos en el webhook');
+    }
+
     const orderData = {
       orderId: jumpsellerWebhookDto.orderId,
       status: jumpsellerWebhookDto.status,
