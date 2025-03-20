@@ -141,4 +141,9 @@ export class UpdateUserDto {
   @IsOptional()
   @IsBoolean()
   validUser?: boolean;
+
+  @ApiPropertyOptional({ description: 'Estado del usuario', example: 'active' })
+  @IsOptional()
+  @IsString()
+  status?: string;
 }
