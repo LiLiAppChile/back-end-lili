@@ -8,15 +8,20 @@ import { AppService } from './app.service';
 import { TransactionsModule } from './transactions/transactions.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     UsersModule,
     TransactionsModule,
     ReviewsModule,
     ServicesModule,
     WebhooksModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
