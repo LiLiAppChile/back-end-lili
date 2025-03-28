@@ -2,78 +2,77 @@ export class User {
   public uid: string;
   public name: string;
   public email: string;
-  public phone: string;
-  public createdAt?: string;
+  public phone: string | null;
+  public createdAt: string;
   public delete: boolean;
   public validUser: boolean;
-  
-  public rut: string;
-  public commune?: string;
-  public siiRegistered?: boolean;
-  public hasTools?: boolean;
-  public ownTransportation?: boolean;
+  public rut: string | null;
+  public commune: string | null;
+  public siiRegistered: boolean;
+  public hasTools: boolean;
+  public ownTransportation: boolean;
   public specialties: string[];
-  public professionalExperience?: string;
-  public personalDescription?: string;
-  public workAreas?: string[];
-  public availability?: { [key: string]: string };
-  public profilePicture?: string;
-  public backgroundCertificate?: { url: string };
-  public identityCard?: { frontUrl: string; backUrl: string };
-  public additionalCertificate?: { url: string };
-  public contactSource?: string;
+  // Campos opcionales
+  public professionalExperience: string | null;
+  public personalDescription: string | null;
+  public workAreas: string[];
+  public availability: { [key: string]: string };
+  public profilePicture: string | null;
+  public backgroundCertificate: { url: string } | null;
+  public identityCard: { frontUrl: string; backUrl: string } | null;
+  public additionalCertificate: { url: string } | null;
+  public contactSource: string | null;
   public status: string;
 
   constructor(
     uid: string,
     name: string,
     email: string,
-    phone: string,
-    rut: string,
+    phone: string | null,
+    rut: string | null,
     specialties: string[],
     options?: {
       createdAt?: string;
       delete?: boolean;
       validUser?: boolean;
-      commune?: string;
+      commune?: string | null;
       siiRegistered?: boolean;
       hasTools?: boolean;
       ownTransportation?: boolean;
-      professionalExperience?: string;
-      personalDescription?: string;
+      professionalExperience?: string | null;
+      personalDescription?: string | null;
       workAreas?: string[];
       availability?: { [key: string]: string };
-      profilePicture?: string;
-      backgroundCertificate?: { url: string };
-      identityCard?: { frontUrl: string; backUrl: string };
-      additionalCertificate?: { url: string };
-      contactSource?: string;
-      status: string;
+      profilePicture?: string | null;
+      backgroundCertificate?: { url: string } | null;
+      identityCard?: { frontUrl: string; backUrl: string } | null;
+      additionalCertificate?: { url: string } | null;
+      contactSource?: string | null;
+      status?: string;
     }
   ) {
     this.uid = uid;
     this.name = name;
     this.email = email;
-    this.phone = phone;
-    this.rut = rut;
-    this.specialties = specialties;
-    this.createdAt = options?.createdAt;
+    this.phone = phone ?? null;
+    this.rut = rut ?? null;
+    this.specialties = specialties ?? [];
+    this.createdAt = options?.createdAt ?? new Date().toISOString();
     this.delete = options?.delete ?? false;
     this.validUser = options?.validUser ?? false;
-
-    this.commune = options?.commune;
-    this.siiRegistered = options?.siiRegistered;
-    this.hasTools = options?.hasTools;
-    this.ownTransportation = options?.ownTransportation;
-    this.professionalExperience = options?.professionalExperience;
-    this.personalDescription = options?.personalDescription;
-    this.workAreas = options?.workAreas;
-    this.availability = options?.availability;
-    this.profilePicture = options?.profilePicture;
-    this.backgroundCertificate = options?.backgroundCertificate;
-    this.identityCard = options?.identityCard;
-    this.additionalCertificate = options?.additionalCertificate;
-    this.contactSource = options?.contactSource;
+    this.commune = options?.commune ?? null;
+    this.siiRegistered = options?.siiRegistered ?? false;
+    this.hasTools = options?.hasTools ?? false;
+    this.ownTransportation = options?.ownTransportation ?? false;
+    this.professionalExperience = options?.professionalExperience ?? null;
+    this.personalDescription = options?.personalDescription ?? null;
+    this.workAreas = options?.workAreas ?? [];
+    this.availability = options?.availability ?? {};
+    this.profilePicture = options?.profilePicture ?? null;
+    this.backgroundCertificate = options?.backgroundCertificate ?? null;
+    this.identityCard = options?.identityCard ?? null;
+    this.additionalCertificate = options?.additionalCertificate ?? null;
+    this.contactSource = options?.contactSource ?? null;
     this.status = options?.status ?? 'pending';
   }
 
@@ -87,5 +86,33 @@ export class User {
 
   isUserValid(): boolean {
     return this.validUser;
+  }
+
+  toFirestore(): Record<string, any> {
+    return {
+      uid: this.uid,
+      name: this.name,
+      email: this.email,
+      phone: this.phone,
+      rut: this.rut,
+      specialties: this.specialties,
+      createdAt: this.createdAt,
+      delete: this.delete,
+      validUser: this.validUser,
+      commune: this.commune,
+      siiRegistered: this.siiRegistered,
+      hasTools: this.hasTools,
+      ownTransportation: this.ownTransportation,
+      professionalExperience: this.professionalExperience,
+      personalDescription: this.personalDescription,
+      workAreas: this.workAreas,
+      availability: this.availability,
+      profilePicture: this.profilePicture,
+      backgroundCertificate: this.backgroundCertificate,
+      identityCard: this.identityCard,
+      additionalCertificate: this.additionalCertificate,
+      contactSource: this.contactSource,
+      status: this.status
+    };
   }
 }
