@@ -4,7 +4,10 @@ import {
   UseGuards,
   Param,
   ParseEnumPipe,
-} from '@nestjs/common'; // Agregado ParseEnumPipe
+  Delete,
+  Patch,
+  Body,
+} from '@nestjs/common';
 import { JumpsellerService, SavedOrder } from './services/jumpseller.service';
 import {
   ApiTags,
@@ -13,6 +16,8 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from '../FirebaseAuthGuard/firebase-auth.guard';
+import { OrdersService } from './services/orders.service';
+import { Order } from './models/orders.model';
 
 interface RespuestaPedidos {
   message: string;
@@ -22,7 +27,10 @@ interface RespuestaPedidos {
 @ApiTags('pedidos')
 @Controller('pedidos')
 export class OrdersController {
-  constructor(private readonly jumpsellerService: JumpsellerService) {}
+  constructor(
+    private readonly jumpsellerService: JumpsellerService,
+    private readonly ordersService: OrdersService,
+  ) {}
 
   @ApiOperation({ summary: 'Obtener pedidos pagados de Jumpseller' })
   @ApiResponse({
@@ -43,5 +51,32 @@ export class OrdersController {
     estado: string,
   ) {
     return this.jumpsellerService.fetchOrdersByStatus(estado);
+  }
+
+  @UseGuards(FirebaseAuthGuard)
+  @Get()
+  async findAll() {
+    return this.ordersService.findAll();
+  }
+
+  @UseGuards(FirebaseAuthGuard)
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.ordersService.findOne(id);
+  }
+
+  @UseGuards(FirebaseAuthGuard)
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateOrderDto: Partial<Order>,
+  ) {
+    return this.ordersService.update(id, updateOrderDto);
+  }
+
+  @UseGuards(FirebaseAuthGuard)
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return this.ordersService.remove(id);
   }
 }

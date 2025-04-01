@@ -40,18 +40,18 @@ async function generateIdToken() {
 async function simulateSignInWithCustomToken(
   customToken: string,
 ): Promise<string> {
-  // Firebase client configuration
+  // Configuración de Firebase client app
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
   };
 
-  // Initialize Firebase client app
+  // Inicializar la aplicación cliente de Firebase
   const clientApp = initializeClientApp(firebaseConfig);
 
   const auth = getAuth(clientApp);
 
-  // Sign in with the custom token and get the ID token
+  // Iniciar sesión con el custom token
   const userCredential = await signInWithCustomToken(auth, customToken);
   const idToken = await userCredential.user.getIdToken();
   return idToken;
