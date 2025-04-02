@@ -2,10 +2,12 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { User } from '../users/models/users.model';
@@ -59,6 +61,7 @@ export class UsersController {
         identityCard: createUserDto.identityCard,
         additionalCertificate: createUserDto.additionalCertificate,
         contactSource: createUserDto.contactSource,
+        status: createUserDto.status,
       }
     );
 
@@ -92,11 +95,18 @@ export class UsersController {
     description: 'Retorna el usuario',
     type: User,
   })
+  @ApiResponse({ status: 403, description: 'No autorizado para acceder a esta información' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Get(':uid')
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth()
-  async findOne(@Param('uid') uid: string): Promise<User> {
+  async findOne(@Param('uid') uid: string, @Req() request): Promise<User> {
+    const userUid = request.user?.uid;
+
+    if (userUid !== uid) {
+      throw new ForbiddenException('No tienes permiso para acceder a esta información');
+    }
+
     return this.usersService.findOne(uid);
   }
 
@@ -107,6 +117,7 @@ export class UsersController {
     description: 'El usuario ha sido actualizado exitosamente',
     type: User,
   })
+  @ApiResponse({ status: 403, description: 'No autorizado para actualizar esta información' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Put(':uid')
   @UseGuards(FirebaseAuthGuard)
@@ -114,7 +125,14 @@ export class UsersController {
   async update(
     @Param('uid') uid: string,
     @Body() updateUserDto: UpdateUserDto,
+    @Req() request,
   ): Promise<User> {
+    const userUid = request.user?.uid;
+
+    if (userUid !== uid) {
+      throw new ForbiddenException('No tienes permiso para actualizar este usuario');
+    }
+
     return this.usersService.update(uid, updateUserDto);
   }
 
@@ -124,11 +142,18 @@ export class UsersController {
     status: 200,
     description: 'El usuario ha sido eliminado exitosamente',
   })
+  @ApiResponse({ status: 403, description: 'No autorizado para eliminar este usuario' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   @Delete(':uid')
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth()
-  async delete(@Param('uid') uid: string): Promise<void> {
+  async delete(@Param('uid') uid: string, @Req() request): Promise<void> {
+    const userUid = request.user?.uid;
+
+    if (userUid !== uid) {
+      throw new ForbiddenException('No tienes permiso para eliminar este usuario');
+    }
+
     return this.usersService.delete(uid);
   }
 }

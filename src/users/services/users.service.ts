@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { db } from '../../config/firebase.config';
 import { User } from '../models/users.model';
-import { UpdateUserDto } from '../dto/update-user.dto';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,70 +37,50 @@ export class UsersService {
         identityCard: data.identityCard,
         additionalCertificate: data.additionalCertificate,
         contactSource: data.contactSource,
+        status: data.status,
       }
     );
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    const { uid, email, name, phone, rut, specialties } = createUserDto;
+
     try {
-      const userData = {
-      name: createUserDto.name,
-      email: createUserDto.email,
-      phone: createUserDto.phone,
-      rut: createUserDto.rut,
-      specialties: createUserDto.specialties,
-      createdAt: new Date().toISOString(),
-      delete: createUserDto.delete || false,
-      validUser: false,
-      commune: createUserDto.commune,
-      siiRegistered: createUserDto.siiRegistered || false,
-      hasTools: createUserDto.hasTools || false,
-      ownTransportation: createUserDto.ownTransportation || false,
-      professionalExperience: '',
-      personalDescription: '',
-      workAreas: [],
-      availability: {},
-      profilePicture: '',
-      backgroundCertificate: { url: '' },
-      identityCard: { frontUrl: '', backUrl: '' },
-      additionalCertificate: { url: '' },
-      contactSource: '',
-      };
+      const userRef = this.usersCollection.doc(uid);
+      await userRef.set({
+        uid: uid,
+        name: name,
+        email: email,
+        phone: phone,
+        rut: rut,
+        specialties: specialties,
+        createdAt: new Date().toISOString(),
+        delete: createUserDto.delete || false,
+        validUser: false,
+        commune: createUserDto.commune,
+        siiRegistered: createUserDto.siiRegistered || false,
+        hasTools: createUserDto.hasTools || false,
+        ownTransportation: createUserDto.ownTransportation || false,
+        professionalExperience: '',
+        personalDescription: '',
+        workAreas: [],
+        availability: {},
+        profilePicture: '',
+        backgroundCertificate: { url: '' },
+        identityCard: { frontUrl: '', backUrl: '' },
+        additionalCertificate: { url: '' },
+        contactSource: '',
+        status: 'pending',
+      });
 
-      await this.usersCollection.doc(createUserDto.uid).set(userData);
+      await userRef.update({ status: 'active' });
 
-      return new User(
-        createUserDto.uid,
-        userData.name,
-        userData.email,
-        userData.phone,
-        userData.rut,
-        userData.specialties,
-        {
-          createdAt: userData.createdAt,
-          delete: userData.delete,
-          validUser: userData.validUser,
-          commune: userData.commune,
-          siiRegistered: userData.siiRegistered,
-          hasTools: userData.hasTools,
-          ownTransportation: userData.ownTransportation,
-          professionalExperience: userData.professionalExperience,
-          personalDescription: userData.personalDescription,
-          workAreas: userData.workAreas,
-          availability: userData.availability,
-          profilePicture: userData.profilePicture,
-          backgroundCertificate: userData.backgroundCertificate,
-          identityCard: userData.identityCard,
-          additionalCertificate: userData.additionalCertificate,
-          contactSource: userData.contactSource,
-        }
-      );
-    } catch (error: any) {
-      console.error('Error en la creación de usuario:', error);
+      return this.toUser(await userRef.get());
+    } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         throw new ConflictException('El correo electrónico ya está en uso');
       }
-      throw error;
+      throw new InternalServerErrorException('Error en el registro: ' + error.message);
     }
   }
 

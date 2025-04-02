@@ -22,6 +22,7 @@ export class User {
   public identityCard?: { frontUrl: string; backUrl: string };
   public additionalCertificate?: { url: string };
   public contactSource?: string;
+  public status: string;
 
   constructor(
     uid: string,
@@ -47,6 +48,7 @@ export class User {
       identityCard?: { frontUrl: string; backUrl: string };
       additionalCertificate?: { url: string };
       contactSource?: string;
+      status: string;
     }
   ) {
     this.uid = uid;
@@ -72,6 +74,7 @@ export class User {
     this.identityCard = options?.identityCard;
     this.additionalCertificate = options?.additionalCertificate;
     this.contactSource = options?.contactSource;
+    this.status = options?.status ?? 'pending';
   }
 
   markAsDeleted(): void {
