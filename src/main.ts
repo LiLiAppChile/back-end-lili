@@ -11,17 +11,13 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      forbidNonWhitelisted:true,
     }),
   );
+  app.enableCors();
 
   // Swagger
   setupSwagger(app);
-
-  app.enableCors({
-    origin: 'http://localhost:5173',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  })
 
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);

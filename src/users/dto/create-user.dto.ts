@@ -13,7 +13,10 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'UID proporcionado por Firebase Authentication', example: 'abc123xyz' })
+  @ApiProperty({
+    description: 'UID proporcionado por Firebase Authentication',
+    example: 'abc123xyz',
+  })
   @IsString({ message: 'El UID debe ser una cadena de texto.' })
   @IsNotEmpty({ message: 'El UID es obligatorio.' })
   uid: string;
@@ -31,20 +34,30 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'El correo electrónico es obligatorio.' })
   email: string;
 
-  @ApiPropertyOptional({ description: 'Número de teléfono', example: '+1234567890' })
+  @ApiPropertyOptional({
+    description: 'Número de teléfono',
+    example: '+1234567890',
+  })
   @IsString({ message: 'El teléfono debe ser una cadena de texto.' })
   @IsOptional()
   @Matches(/^\+?\d{10,15}$/, {
-    message: 'El número de teléfono debe ser válido y tener entre 10 y 15 dígitos.',
+    message:
+      'El número de teléfono debe ser válido y tener entre 10 y 15 dígitos.',
   })
   phone: string | null = null;
 
-  @ApiPropertyOptional({ description: 'RUT del profesional', example: '12.345.678-9' })
+  @ApiPropertyOptional({
+    description: 'RUT del profesional',
+    example: '12.345.678-9',
+  })
   @IsString({ message: 'El RUT debe ser una cadena de texto.' })
   @IsOptional()
   rut: string | null = null;
 
-  @ApiPropertyOptional({ description: 'Comuna donde reside el profesional', example: 'Santiago' })
+  @ApiPropertyOptional({
+    description: 'Comuna donde reside el profesional',
+    example: 'Santiago',
+  })
   @IsString({ message: 'La comuna debe ser una cadena de texto.' })
   @IsOptional()
   commune: string | null = null;
@@ -54,7 +67,10 @@ export class CreateUserDto {
   @IsOptional()
   siiRegistered: boolean = false;
 
-  @ApiPropertyOptional({ description: 'Tiene herramientas propias', example: true })
+  @ApiPropertyOptional({
+    description: 'Tiene herramientas propias',
+    example: true,
+  })
   @IsBoolean({ message: 'El campo hasTools debe ser booleano.' })
   @IsOptional()
   hasTools: boolean = false;
@@ -69,17 +85,29 @@ export class CreateUserDto {
     example: ['electricidad', 'gasfitería'],
     type: [String],
   })
-  @IsArray({ message: 'Las especialidades deben ser un array de cadenas de texto.' })
+  @IsArray({
+    message: 'Las especialidades deben ser un array de cadenas de texto.',
+  })
   @IsOptional()
   specialties: string[] = [];
 
-  @ApiPropertyOptional({ description: 'Descripción de la experiencia laboral', example: 'Más de 10 años de experiencia.' })
-  @IsString({ message: 'La experiencia profesional debe ser una cadena de texto.' })
+  @ApiPropertyOptional({
+    description: 'Descripción de la experiencia laboral',
+    example: 'Más de 10 años de experiencia.',
+  })
+  @IsString({
+    message: 'La experiencia profesional debe ser una cadena de texto.',
+  })
   @IsOptional()
   professionalExperience: string | null = null;
 
-  @ApiPropertyOptional({ description: 'Texto personal sobre el profesional', example: 'Profesional dedicado y responsable.' })
-  @IsString({ message: 'La descripción personal debe ser una cadena de texto.' })
+  @ApiPropertyOptional({
+    description: 'Texto personal sobre el profesional',
+    example: 'Profesional dedicado y responsable.',
+  })
+  @IsString({
+    message: 'La descripción personal debe ser una cadena de texto.',
+  })
   @IsOptional()
   personalDescription: string | null = null;
 
@@ -88,7 +116,9 @@ export class CreateUserDto {
     example: ['Santiago', 'Providencia'],
     type: [String],
   })
-  @IsArray({ message: 'Las áreas de trabajo deben ser un array de cadenas de texto.' })
+  @IsArray({
+    message: 'Las áreas de trabajo deben ser un array de cadenas de texto.',
+  })
   @IsOptional()
   workAreas: string[] = [];
 
@@ -101,8 +131,13 @@ export class CreateUserDto {
   @IsOptional()
   availability: Record<string, string> = {};
 
-  @ApiPropertyOptional({ description: 'URL de la foto de perfil', example: 'https://example.com/profile.jpg' })
-  @IsString({ message: 'La URL de la foto de perfil debe ser una cadena de texto.' })
+  @ApiPropertyOptional({
+    description: 'URL de la foto de perfil',
+    example: 'https://example.com/profile.jpg',
+  })
+  @IsString({
+    message: 'La URL de la foto de perfil debe ser una cadena de texto.',
+  })
   @IsOptional()
   profilePicture: string | null = null;
 
@@ -117,15 +152,25 @@ export class CreateUserDto {
 
   @ApiPropertyOptional({
     description: 'Cédula de Identidad (URLs de archivos)',
-    example: { frontUrl: 'https://example.com/ci_front.jpg', backUrl: 'https://example.com/ci_back.jpg' },
+    example: { url: 'https://example.com/ci_front.jpg' },
     type: Object,
   })
   @IsObject({ message: 'El documento de identidad debe ser un objeto.' })
   @IsOptional()
-  identityCard: { frontUrl: string; backUrl: string } | null = null;
+  identityCardFront: { url: string } | null = null;
 
   @ApiPropertyOptional({
-    description: 'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)',
+    description: 'Cédula de Identidad (URLs de archivos)',
+    example: { url: 'https://example.com/ci_back.jpg' },
+    type: Object,
+  })
+  @IsObject({ message: 'El documento de identidad debe ser un objeto.' })
+  @IsOptional()
+  identityCardBack: { url: string } | null = null;
+
+  @ApiPropertyOptional({
+    description:
+      'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)',
     example: { url: 'https://example.com/certificate.pdf' },
     type: Object,
   })
@@ -133,7 +178,10 @@ export class CreateUserDto {
   @IsOptional()
   additionalCertificate: { url: string } | null = null;
 
-  @ApiPropertyOptional({ description: 'Cómo conoció la plataforma', example: 'Recomendación de un amigo' })
+  @ApiPropertyOptional({
+    description: 'Cómo conoció la plataforma',
+    example: 'Recomendación de un amigo',
+  })
   @IsString({ message: 'La fuente de contacto debe ser una cadena de texto.' })
   @IsOptional()
   contactSource: string | null = null;

@@ -19,7 +19,8 @@ export class User {
   public availability: { [key: string]: string };
   public profilePicture: string | null;
   public backgroundCertificate: { url: string } | null;
-  public identityCard: { frontUrl: string; backUrl: string } | null;
+  public identityCardFront: { url: string } | null;
+  public identityCardBack: { url: string } | null;
   public additionalCertificate: { url: string } | null;
   public contactSource: string | null;
   public status: string;
@@ -45,11 +46,12 @@ export class User {
       availability?: { [key: string]: string };
       profilePicture?: string | null;
       backgroundCertificate?: { url: string } | null;
-      identityCard?: { frontUrl: string; backUrl: string } | null;
+      identityCardFront?: { url: string } | null;
+      identityCardBack?: { url: string } | null;
       additionalCertificate?: { url: string } | null;
       contactSource?: string | null;
       status?: string;
-    }
+    },
   ) {
     this.uid = uid;
     this.name = name;
@@ -70,7 +72,8 @@ export class User {
     this.availability = options?.availability ?? {};
     this.profilePicture = options?.profilePicture ?? null;
     this.backgroundCertificate = options?.backgroundCertificate ?? null;
-    this.identityCard = options?.identityCard ?? null;
+    this.identityCardFront = options?.identityCardFront ?? null;
+    this.identityCardBack = options?.identityCardBack ?? null;
     this.additionalCertificate = options?.additionalCertificate ?? null;
     this.contactSource = options?.contactSource ?? null;
     this.status = options?.status ?? 'pending';
@@ -109,10 +112,11 @@ export class User {
       availability: this.availability,
       profilePicture: this.profilePicture,
       backgroundCertificate: this.backgroundCertificate,
-      identityCard: this.identityCard,
+      identityCardFront: this.identityCardFront,
+      identityCardBack: this.identityCardBack,
       additionalCertificate: this.additionalCertificate,
       contactSource: this.contactSource,
-      status: this.status
+      status: this.status,
     };
   }
 }
