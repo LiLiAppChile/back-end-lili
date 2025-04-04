@@ -34,16 +34,21 @@ export class UsersService {
         availability: data.availability,
         profilePicture: data.profilePicture,
         backgroundCertificate: data.backgroundCertificate,
-        identityCard: data.identityCard,
+        identityCardFront: data.identityCardFront,
+        identityCardBack: data.identityCardBack,
         additionalCertificate: data.additionalCertificate,
         contactSource: data.contactSource,
         status: data.status,
+        bankName: data.bankName,
+        accountType: data.accountType,
+        accountHolderName: data.accountHolderName,
+        accountNumber: data.accountNumber,
       }
     );
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { uid, email, name, phone, rut, specialties } = createUserDto;
+    const { uid, email, name, phone, rut, specialties, bankName, accountType, accountHolderName, accountNumber } = createUserDto;
 
     try {
       const userRef = this.usersCollection.doc(uid);
@@ -67,10 +72,15 @@ export class UsersService {
         availability: {},
         profilePicture: '',
         backgroundCertificate: { url: '' },
-        identityCard: { frontUrl: '', backUrl: '' },
+        identityCardFront: { url: '' },
+        identityCardBack: { url: '' },
         additionalCertificate: { url: '' },
         contactSource: '',
         status: 'pending',
+        bankName: bankName || '',
+        accountType: accountType || '',
+        accountHolderName: accountHolderName || '',
+        accountNumber: accountNumber || 0,
       });
 
       await userRef.update({ status: 'active' });
@@ -126,9 +136,14 @@ export class UsersService {
         availability: updateUserDto.availability,
         profilePicture: updateUserDto.profilePicture,
         backgroundCertificate: updateUserDto.backgroundCertificate,
-        identityCard: updateUserDto.identityCard,
+        identityCardFront: updateUserDto.identityCardFront,
+        identityCardBack: updateUserDto.identityCardBack,
         additionalCertificate: updateUserDto.additionalCertificate,
         contactSource: updateUserDto.contactSource,
+        bankName: updateUserDto.bankName,
+        accountType: updateUserDto.accountType,
+        accountHolderName: updateUserDto.accountHolderName,
+        accountNumber: updateUserDto.accountNumber,
       };
 
       const filteredUpdateData = Object.fromEntries(
