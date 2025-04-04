@@ -16,21 +16,24 @@ export class Transaction {
     paymentStatus: 'pendiente' | 'completado' | 'reembolsado',
     paymentMethod: string,
     platformFee: number,
-    professionalAmount: number
+    professionalAmount: number,
   ) {
-
     if (amount <= 0) {
       throw new Error('El monto de la transacción debe ser mayor que cero.');
     }
     if (platformFee < 0 || platformFee > 100) {
-      throw new Error('La comisión de la plataforma debe ser un porcentaje entre 0 y 100.');
+      throw new Error(
+        'La comisión de la plataforma debe ser un porcentaje entre 0 y 100.',
+      );
     }
     if (professionalAmount <= 0) {
       throw new Error('El monto para el profesional debe ser mayor que cero.');
     }
-     if (professionalAmount >= this.amount) {
-       throw new Error('El monto del profesional no puede ser mayor o igual al monto total.');
-     }
+    if (professionalAmount >= this.amount) {
+      throw new Error(
+        'El monto del profesional no puede ser mayor o igual al monto total.',
+      );
+    }
 
     this.transactionId = transactionId;
     this.requestId = requestId;
@@ -42,16 +45,20 @@ export class Transaction {
     this.professionalAmount = professionalAmount;
   }
 
-    markAsCompleted(): void {
+  markAsCompleted(): void {
     if (this.paymentStatus !== 'pendiente') {
-      throw new Error('Solo las transacciones pendientes pueden marcarse como completadas.');
+      throw new Error(
+        'Solo las transacciones pendientes pueden marcarse como completadas.',
+      );
     }
     this.paymentStatus = 'completado';
   }
 
   markAsRefunded(): void {
     if (this.paymentStatus !== 'completado') {
-      throw new Error('Solo las transacciones completadas pueden marcarse como reembolsadas.');
+      throw new Error(
+        'Solo las transacciones completadas pueden marcarse como reembolsadas.',
+      );
     }
     this.paymentStatus = 'reembolsado';
   }
@@ -59,5 +66,4 @@ export class Transaction {
   isCompleted(): boolean {
     return this.paymentStatus === 'completado';
   }
-
 }
