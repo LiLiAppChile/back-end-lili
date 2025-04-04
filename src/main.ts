@@ -14,7 +14,12 @@ async function bootstrap() {
       forbidNonWhitelisted:true,
     }),
   );
-  app.enableCors();
+    // Habilitar CORS
+    app.enableCors({
+      origin: true, // o especifica dominios permitidos ['http://localhost:3000']
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    });
 
   // Swagger
   setupSwagger(app);

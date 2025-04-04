@@ -189,7 +189,7 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsString()
-  status?: string;
+  bankName?: string;
 
   @ApiPropertyOptional({
     description: 'Tipo de cuenta de banco',
@@ -197,7 +197,7 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsString()
-  status?: string;
+  accountType?: string;
 
   @ApiPropertyOptional({
     description: 'Nombre del titual de la cuenta de banco',
@@ -205,7 +205,7 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsString()
-  status?: string;
+  accountHolderName?: string;
 
   @ApiPropertyOptional({
     description: 'Número de cuenta',
@@ -213,5 +213,5 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsNumber()
-  status?: number;
+  accountNumber?: number;
 }

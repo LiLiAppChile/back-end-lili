@@ -24,6 +24,10 @@ export class User {
   public additionalCertificate: { url: string } | null;
   public contactSource: string | null;
   public status: string;
+  public bankName?: string;
+  public accountType?: string;
+  public accountHolderName?: string;
+  public accountNumber?: number;
 
   constructor(
     uid: string,
@@ -51,6 +55,10 @@ export class User {
       additionalCertificate?: { url: string } | null;
       contactSource?: string | null;
       status?: string;
+      bankName?: string;
+      accountType?: string;
+      accountHolderName?: string;
+      accountNumber?: number;
     },
   ) {
     this.uid = uid;
@@ -77,6 +85,10 @@ export class User {
     this.additionalCertificate = options?.additionalCertificate ?? null;
     this.contactSource = options?.contactSource ?? null;
     this.status = options?.status ?? 'pending';
+    this.bankName = options?.bankName ?? undefined;
+    this.accountType = options?.accountType ?? undefined;
+    this.accountHolderName = options?.accountHolderName ?? undefined;
+    this.accountNumber = options?.accountNumber ?? undefined;
   }
 
   markAsDeleted(): void {
@@ -117,6 +129,10 @@ export class User {
       additionalCertificate: this.additionalCertificate,
       contactSource: this.contactSource,
       status: this.status,
+      bankName: this.bankName,
+      accountType: this.accountType,
+      accountHolderName: this.accountHolderName,
+      accountNumber: this.accountNumber,
     };
   }
 }
