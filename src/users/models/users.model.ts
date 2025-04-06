@@ -7,12 +7,13 @@ export class User {
   public delete: boolean;
   public validUser: boolean;
   public rut: string | null;
+  public region: string | null;
   public commune: string | null;
   public siiRegistered: boolean;
+  public siiActivitiesStarted: boolean;
   public hasTools: boolean;
   public ownTransportation: boolean;
   public specialties: string[];
-  // Campos opcionales
   public professionalExperience: string | null;
   public personalDescription: string | null;
   public workAreas: string[];
@@ -27,7 +28,7 @@ export class User {
   public bankName?: string;
   public accountType?: string;
   public accountHolderName?: string;
-  public accountNumber?: number;
+  public accountNumber?: string;
 
   constructor(
     uid: string,
@@ -40,8 +41,10 @@ export class User {
       createdAt?: string;
       delete?: boolean;
       validUser?: boolean;
+      region?: string | null;
       commune?: string | null;
       siiRegistered?: boolean;
+      siiActivitiesStarted?: boolean;
       hasTools?: boolean;
       ownTransportation?: boolean;
       professionalExperience?: string | null;
@@ -58,7 +61,7 @@ export class User {
       bankName?: string;
       accountType?: string;
       accountHolderName?: string;
-      accountNumber?: number;
+      accountNumber?: string;
     },
   ) {
     this.uid = uid;
@@ -70,8 +73,10 @@ export class User {
     this.createdAt = options?.createdAt ?? new Date().toISOString();
     this.delete = options?.delete ?? false;
     this.validUser = options?.validUser ?? false;
+    this.region = options?.region ?? null;
     this.commune = options?.commune ?? null;
     this.siiRegistered = options?.siiRegistered ?? false;
+    this.siiActivitiesStarted = options?.siiActivitiesStarted ?? false;
     this.hasTools = options?.hasTools ?? false;
     this.ownTransportation = options?.ownTransportation ?? false;
     this.professionalExperience = options?.professionalExperience ?? null;
@@ -110,12 +115,14 @@ export class User {
       email: this.email,
       phone: this.phone,
       rut: this.rut,
+      region: this.region,
       specialties: this.specialties,
       createdAt: this.createdAt,
       delete: this.delete,
       validUser: this.validUser,
       commune: this.commune,
       siiRegistered: this.siiRegistered,
+      siiActivitiesStarted: this.siiActivitiesStarted,
       hasTools: this.hasTools,
       ownTransportation: this.ownTransportation,
       professionalExperience: this.professionalExperience,

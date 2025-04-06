@@ -47,6 +47,14 @@ export class UpdateUserDto {
   rut?: string;
 
   @ApiPropertyOptional({
+    description: 'Region donde reside el profesional',
+    example: 'Metropolitana',
+  })
+  @IsOptional()
+  @IsString()
+  region?: string;
+
+  @ApiPropertyOptional({
     description: 'Comuna donde reside el profesional',
     example: 'Santiago',
   })
@@ -58,6 +66,11 @@ export class UpdateUserDto {
   @IsOptional()
   @IsBoolean()
   siiRegistered?: boolean;
+
+  @ApiPropertyOptional({ description: 'Actividades iniciadas en el SII', example: true })
+  @IsOptional()
+  @IsBoolean()
+  siiActivitiesStarted?: boolean;
 
   @ApiPropertyOptional({
     description: 'Tiene herramientas propias',
@@ -213,5 +226,5 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsNumber()
-  accountNumber?: number;
+  accountNumber?: string;
 }

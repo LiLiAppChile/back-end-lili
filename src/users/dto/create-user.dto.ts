@@ -44,6 +44,11 @@ export class CreateUserDto {
   @IsOptional()
   rut?: string | null = null;
 
+  @ApiPropertyOptional({ description: 'Región donde reside el profesional', example: 'Metropolitana' })
+  @IsString({ message: 'La región debe ser una cadena de texto.' })
+  @IsOptional()
+  region?: string | null = null;
+
   @ApiPropertyOptional({ description: 'Comuna donde reside el profesional', example: 'Santiago' })
   @IsString({ message: 'La comuna debe ser una cadena de texto.' })
   @IsOptional()
@@ -53,6 +58,11 @@ export class CreateUserDto {
   @IsBoolean({ message: 'El campo siiRegistered debe ser booleano.' })
   @IsOptional()
   siiRegistered?: boolean = false;
+
+  @ApiPropertyOptional({ description: 'Actividades iniciadas en el SII', example: true })
+  @IsBoolean({ message: 'El campo siiActivitiesStarted debe ser booleano.' })
+  @IsOptional()
+  siiActivitiesStarted?: boolean = false;
 
   @ApiPropertyOptional({ description: 'Tiene herramientas propias', example: true })
   @IsBoolean({ message: 'El campo hasTools debe ser booleano.' })
@@ -181,5 +191,5 @@ export class CreateUserDto {
   @ApiPropertyOptional({ description: 'Número de cuenta', example: '1234567890' })
   @IsString({ message: 'El número de cuenta debe ser una cadena de texto.' })
   @IsOptional()
-  accountNumber?: number | null = null;
+  accountNumber?: string | null = null;
 }
