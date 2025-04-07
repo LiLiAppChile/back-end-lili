@@ -131,6 +131,47 @@ export class JumpsellerService {
           continue;
         }
 
+
+        const specialtiesOptions = [
+          "Gasfitería",
+          "Electricidad",
+          "Cerrajería",
+          "Limpieza",
+          "Seguridad",
+          "Climatización",
+          "Carpintería",
+          "Albañilería",
+          "Pintura",
+          "Jardinería",
+          "Artefactos",
+          "Control de plagas",
+        ];
+        
+        const serviceId = Number(actualOrder.products[0]?.id) || null;
+        console.log('ID del servicio:', serviceId);
+        
+        const categories = await db.collection('categories').get();
+        
+        let categoryName = null;
+        
+        if (serviceId) {
+          const categoryRef = categories.docs.find((doc) => {
+            const data = doc.data();
+            const hasMatchingProduct = data.products?.some((product) => product.id === serviceId);
+            const isInSpecialties = specialtiesOptions.includes(data.name);
+            return hasMatchingProduct && isInSpecialties;
+          });
+        
+          if (categoryRef) {
+            categoryName = categoryRef.data().name;
+            console.log('Nombre de la categoría encontrada (con cruce):', categoryName);
+          } else {
+            console.log('No se encontró una categoría que cruce nombre y serviceId');
+          }
+        }
+        
+        
+        
         // Preparar datos del pedido para almacenamiento
         const orderData = {
           orderId: actualOrder.id.toString(),
@@ -144,6 +185,7 @@ export class JumpsellerService {
           fechaCreacion: new Date(actualOrder.created_at).toISOString(),
           fechaImportacion: new Date().toISOString(),
           datosOriginales: actualOrder,
+          categoria: categoryName || null,
         };
 
         // Almacenar en la colección correspondiente
