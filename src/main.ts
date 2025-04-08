@@ -11,8 +11,15 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      forbidNonWhitelisted:true,
     }),
   );
+    // Habilitar CORS
+    app.enableCors({
+      origin: true, // o especifica dominios permitidos ['http://localhost:3000']
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    });
 
   // Swagger
   setupSwagger(app);
