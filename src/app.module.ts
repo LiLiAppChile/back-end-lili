@@ -25,7 +25,6 @@ import { CategoriesModule } from './categories/categories.module';
     CategoriesModule,
   ],
 
-
   controllers: [AppController],
   providers: [AppService],
 })
