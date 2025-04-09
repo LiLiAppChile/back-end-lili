@@ -119,6 +119,7 @@ export class CategoriesService {
               : null,
             description: actualCategory.description || '',
             image_url: actualCategory.image_url || '',
+            products: actualCategory.products || [],
             updatedAt: new Date().toISOString(),
           };
 
@@ -141,6 +142,7 @@ export class CategoriesService {
             : null,
           description: actualCategory.description || '',
           image_url: actualCategory.image_url || '',
+          products: actualCategory.products || [],
           createdAt: new Date().toISOString(),
         };
 

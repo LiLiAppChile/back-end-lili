@@ -18,4 +18,10 @@ export class CategoryDto {
 
   @ApiPropertyOptional({ description: 'URL de la imagen de la categoría' })
   image_url?: string;
+
+  @ApiPropertyOptional({
+    description: 'Productos asociados a la categoría',
+    type: 'array',
+  })
+  products?: any[];
 }

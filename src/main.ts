@@ -24,6 +24,12 @@ async function bootstrap() {
   // Swagger
   setupSwagger(app);
 
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
