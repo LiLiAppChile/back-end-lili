@@ -148,7 +148,6 @@ export class JumpsellerService {
         ];
         
         const serviceId = Number(actualOrder.products[0]?.id) || null;
-        console.log('ID del servicio:', serviceId);
         
         const categories = await db.collection('categories').get();
         
@@ -164,9 +163,9 @@ export class JumpsellerService {
         
           if (categoryRef) {
             categoryName = categoryRef.data().name;
-            console.log('Nombre de la categoría encontrada (con cruce):', categoryName);
+            console.log('Nombre de la categoría encontrada:', categoryName);
           } else {
-            console.log('No se encontró una categoría que cruce nombre y serviceId');
+            console.log('No se encontró una categoría');
           }
         }
         
@@ -185,7 +184,7 @@ export class JumpsellerService {
           fechaCreacion: new Date(actualOrder.created_at).toISOString(),
           fechaImportacion: new Date().toISOString(),
           datosOriginales: actualOrder,
-          categoria: categoryName || null,
+          categoria: categoryName || 'Otros',
         };
 
         // Almacenar en la colección correspondiente
