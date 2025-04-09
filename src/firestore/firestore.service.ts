@@ -17,14 +17,6 @@ export class FirestoreService {
     return doc.data();
   }
 
-  async findAll(collection: string) {
-    const snapshot = await db.collection(collection).get();
-    return snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-  }
-
   async update(collection: string, id: string, data: any) {
     const docRef = db.collection(collection).doc(id);
     await docRef.update(data);

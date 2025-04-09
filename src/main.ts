@@ -1,35 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { setupSwagger } from './swagger/swagger.config';
-import { GlobalExceptionFilter } from './filters/global-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT || 3001;
-  app.useGlobalFilters(new GlobalExceptionFilter());
+  const port = process.env.PORT || 3000;
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted:true,
     }),
   );
-    // Habilitar CORS
-    app.enableCors({
-      origin: true, // o especifica dominios permitidos ['http://localhost:3000']
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true,
-    });
-
-  // Swagger
-  setupSwagger(app);
-
-  app.enableCors({
-    origin: 'http://localhost:5173',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
-
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
