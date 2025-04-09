@@ -34,6 +34,16 @@ export class Category {
   })
   image_url?: string;
 
+  @ApiPropertyOptional({
+    description: 'Productos asociados a la categoría',
+    example: [
+      { id: '123', name: 'Producto 1' },
+      { id: '456', name: 'Producto 2' },
+    ],
+    type: 'array',
+  })
+  products?: any[];
+
   @ApiProperty({
     description: 'Marca de tiempo de creación',
     example: '2025-03-31T12:34:56.789Z',
