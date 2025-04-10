@@ -1,14 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  Min,
-  Max,
-  Length,
-  Matches,
-  IsOptional,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, Min, Max, Length, Matches, IsOptional } from 'class-validator';
 
 export class CreateReviewDto {
   @ApiProperty({
@@ -77,7 +68,7 @@ export class CreateReviewDto {
   })
   @IsString()
   @IsNotEmpty()
-  @Length(10, 500)
+  @Length(500)
   @Matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,;:¡!¿?()\-_]+$/, {
     message: 'El comentario contiene caracteres no permitidos',
   })
