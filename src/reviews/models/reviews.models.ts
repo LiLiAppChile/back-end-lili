@@ -17,7 +17,7 @@ export class Review {
     professionalId?: string,
     rating?: number,
     comment?: string,
-    createdAt?: Date
+    createdAt?: Date,
   ) {
     this.id = id;
     this.requestId = requestId || '';
@@ -37,7 +37,7 @@ export class Review {
       data.professionalId,
       data.rating,
       data.comment,
-      data.createdAt
+      data.createdAt,
     );
   }
 
@@ -49,7 +49,7 @@ export class Review {
       data.professionalId,
       data.rating,
       data.comment,
-      data.createdAt?.toDate() || new Date()
+      data.createdAt?.toDate() || new Date(),
     );
   }
 
@@ -60,7 +60,7 @@ export class Review {
       professionalId: review.professionalId,
       rating: review.rating,
       comment: review.comment,
-      createdAt: review.createdAt
+      createdAt: review.createdAt,
     };
   }
 }

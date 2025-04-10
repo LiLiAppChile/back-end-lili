@@ -57,14 +57,14 @@ export class ReviewsController {
         status: 'success',
         message: 'No se encontraron reseñas para este profesional',
         data: [],
-        professionalId: professionalId
+        professionalId: professionalId,
       };
     }
 
     return {
       status: 'success',
       data: reviews,
-      count: reviews.length
+      count: reviews.length,
     };
   }
 
@@ -92,10 +92,7 @@ export class ReviewsController {
   @ApiResponse({ status: 200, description: 'Review updated successfully' })
   @ApiResponse({ status: 404, description: 'Review not found' })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  async updateReview(
-    @Param('id') id: string,
-    @Body() updateReviewDto: UpdateReviewDto,
-  ) {
+  async updateReview(@Param('id') id: string, @Body() updateReviewDto: UpdateReviewDto) {
     return this.reviewsService.updateReview(id, updateReviewDto);
   }
 

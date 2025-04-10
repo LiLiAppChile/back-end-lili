@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { db } from '../../config/firebase.config';
 import { Review } from '../models/reviews.models';
 import { CreateReviewDto } from '../dto/create-review.dto';
@@ -15,9 +20,10 @@ export class ReviewsService {
     }
 
     // Manejo seguro de la fecha createdAt
-    const createdAt = typeof data.createdAt === 'string'
-      ? data.createdAt
-      : data.createdAt?.toDate()?.toISOString() || new Date().toISOString();
+    const createdAt =
+      typeof data.createdAt === 'string'
+        ? data.createdAt
+        : data.createdAt?.toDate()?.toISOString() || new Date().toISOString();
 
     return new Review(
       doc.id,
@@ -26,7 +32,7 @@ export class ReviewsService {
       data.professionalId,
       data.rating,
       data.comment,
-      createdAt
+      createdAt,
     );
   }
 
@@ -50,7 +56,7 @@ export class ReviewsService {
         professionalId,
         rating,
         comment,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       await reviewRef.set(reviewData);
@@ -101,7 +107,7 @@ export class ReviewsService {
 
       const filteredUpdateData = this.filterUndefinedFields({
         rating: updateReviewDto.rating,
-        comment: updateReviewDto.comment
+        comment: updateReviewDto.comment,
       });
 
       await this.reviewsCollection.doc(id).update(filteredUpdateData);
@@ -126,11 +132,10 @@ export class ReviewsService {
   async findByProfessionalId(
     professionalId: string,
     minRating?: number,
-    limit?: number
+    limit?: number,
   ): Promise<Review[]> {
     try {
-      let query = this.reviewsCollection
-        .where('professionalId', '==', professionalId);
+      let query = this.reviewsCollection.where('professionalId', '==', professionalId);
 
       if (minRating) {
         query = query.where('rating', '>=', minRating);
@@ -146,13 +151,9 @@ export class ReviewsService {
     }
   }
 
-  async findByClientId(
-    clientId: string,
-    limit?: number
-  ): Promise<Review[]> {
+  async findByClientId(clientId: string, limit?: number): Promise<Review[]> {
     try {
-      let query = this.reviewsCollection
-        .where('clientId', '==', clientId);
+      let query = this.reviewsCollection.where('clientId', '==', clientId);
 
       if (limit) {
         query = query.limit(limit);
@@ -208,9 +209,7 @@ export class ReviewsService {
   }
 
   private filterUndefinedFields(obj: Record<string, any>): Record<string, any> {
-    return Object.fromEntries(
-      Object.entries(obj).filter(([_, value]) => value !== undefined)
-    );
+    return Object.fromEntries(Object.entries(obj).filter(([_, value]) => value !== undefined));
   }
 
   private handleError(error: Error, context?: string): never {

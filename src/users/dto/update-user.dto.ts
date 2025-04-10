@@ -33,8 +33,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   @Matches(/^\+?\d{10,15}$/, {
-    message:
-      'El número de teléfono debe ser válido y tener entre 10 y 15 dígitos.',
+    message: 'El número de teléfono debe ser válido y tener entre 10 y 15 dígitos.',
   })
   phone?: string;
 
@@ -164,8 +163,7 @@ export class UpdateUserDto {
   identityCardBack?: { url: string };
 
   @ApiPropertyOptional({
-    description:
-      'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)',
+    description: 'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)',
     example: { url: 'https://example.com/certificate.pdf' },
     type: Object,
   })

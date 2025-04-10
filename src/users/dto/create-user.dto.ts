@@ -13,7 +13,10 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'UID proporcionado por Firebase Authentication', example: 'abc123xyz' })
+  @ApiProperty({
+    description: 'UID proporcionado por Firebase Authentication',
+    example: 'abc123xyz',
+  })
   @IsString({ message: 'El UID debe ser una cadena de texto.' })
   @IsNotEmpty({ message: 'El UID es obligatorio.' })
   uid: string;
@@ -44,7 +47,10 @@ export class CreateUserDto {
   @IsOptional()
   rut?: string | null = null;
 
-  @ApiPropertyOptional({ description: 'Región donde reside el profesional', example: 'Metropolitana' })
+  @ApiPropertyOptional({
+    description: 'Región donde reside el profesional',
+    example: 'Metropolitana',
+  })
   @IsString({ message: 'La región debe ser una cadena de texto.' })
   @IsOptional()
   region?: string | null = null;
@@ -83,12 +89,18 @@ export class CreateUserDto {
   @IsOptional()
   specialties?: string[] = [];
 
-  @ApiPropertyOptional({ description: 'Descripción de la experiencia laboral', example: 'Más de 10 años de experiencia.' })
+  @ApiPropertyOptional({
+    description: 'Descripción de la experiencia laboral',
+    example: 'Más de 10 años de experiencia.',
+  })
   @IsString({ message: 'La experiencia profesional debe ser una cadena de texto.' })
   @IsOptional()
   professionalExperience?: string | null = null;
 
-  @ApiPropertyOptional({ description: 'Texto personal sobre el profesional', example: 'Profesional dedicado y responsable.' })
+  @ApiPropertyOptional({
+    description: 'Texto personal sobre el profesional',
+    example: 'Profesional dedicado y responsable.',
+  })
   @IsString({ message: 'La descripción personal debe ser una cadena de texto.' })
   @IsOptional()
   personalDescription?: string | null = null;
@@ -111,7 +123,10 @@ export class CreateUserDto {
   @IsOptional()
   availability?: { [key: string]: string } | null = null;
 
-  @ApiPropertyOptional({ description: 'URL de la foto de perfil', example: 'https://example.com/profile.jpg' })
+  @ApiPropertyOptional({
+    description: 'URL de la foto de perfil',
+    example: 'https://example.com/profile.jpg',
+  })
   @IsString({ message: 'La URL de la foto de perfil debe ser una cadena de texto.' })
   @IsOptional()
   profilePicture?: string | null = null;
@@ -127,7 +142,10 @@ export class CreateUserDto {
 
   @ApiPropertyOptional({
     description: 'Cédula de Identidad (URLs de archivos)',
-    example: { frontUrl: 'https://example.com/ci_front.jpg', backUrl: 'https://example.com/ci_back.jpg' },
+    example: {
+      frontUrl: 'https://example.com/ci_front.jpg',
+      backUrl: 'https://example.com/ci_back.jpg',
+    },
     type: Object,
   })
   @IsObject({ message: 'El documento de identidad debe ser un objeto.' })
@@ -136,19 +154,27 @@ export class CreateUserDto {
 
   @ApiPropertyOptional({
     description: 'Cédula de Identidad (URLs de archivos)',
-    example: { frontUrl: 'https://example.com/ci_front.jpg', backUrl: 'https://example.com/ci_back.jpg' },
+    example: {
+      frontUrl: 'https://example.com/ci_front.jpg',
+      backUrl: 'https://example.com/ci_back.jpg',
+    },
     type: Object,
   })
   @IsObject({ message: 'El documento de identidad debe ser un objeto.' })
   @IsOptional()
   identityCardBack?: { url: string } | null = null;
 
-  @ApiPropertyOptional({ description: 'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)' })
+  @ApiPropertyOptional({
+    description: 'Certificado Adicional (SEC, Chile Valora, Título Univ o Técnico)',
+  })
   @IsObject({ message: 'El certificado adicional debe ser un objeto.' })
   @IsOptional()
   additionalCertificate?: { url: string } | null = null;
 
-  @ApiPropertyOptional({ description: 'Cómo conoció la plataforma', example: 'Recomendación de un amigo' })
+  @ApiPropertyOptional({
+    description: 'Cómo conoció la plataforma',
+    example: 'Recomendación de un amigo',
+  })
   @IsString({ message: 'La fuente de contacto debe ser una cadena de texto.' })
   @IsOptional()
   contactSource?: string | null = null;
@@ -183,7 +209,10 @@ export class CreateUserDto {
   @IsOptional()
   accountType?: string | null = null;
 
-  @ApiPropertyOptional({ description: 'Nombre del titular de la cuenta', example: 'Alberto Gallardo' })
+  @ApiPropertyOptional({
+    description: 'Nombre del titular de la cuenta',
+    example: 'Alberto Gallardo',
+  })
   @IsString({ message: 'El nombre del titular debe ser una cadena de texto.' })
   @IsOptional()
   accountHolderName?: string | null = null;

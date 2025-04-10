@@ -11,24 +11,18 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted:true,
+      forbidNonWhitelisted: true,
     }),
   );
-    // Habilitar CORS
-    app.enableCors({
-      origin: true, // o especifica dominios permitidos ['http://localhost:3000']
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true,
-    });
-
-  // Swagger
-  setupSwagger(app);
-
+  // Habilitar CORS
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: true, // o especifica dominios permitidos ['http://localhost:3000']
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+
+  // Swagger
+  setupSwagger(app);
 
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);

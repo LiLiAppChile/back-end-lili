@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  ForbiddenException,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { User } from '../users/models/users.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,7 +9,7 @@ import { FirebaseAuthGuard } from '../FirebaseAuthGuard/firebase-auth.guard';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @ApiOperation({ summary: 'Obtener estado de la API' })
   @ApiResponse({ status: 200, description: 'Retorna el estado de la API' })
@@ -69,7 +58,7 @@ export class UsersController {
         accountType: createUserDto.accountType ?? undefined,
         accountHolderName: createUserDto.accountHolderName ?? undefined,
         accountNumber: createUserDto.accountNumber ?? undefined,
-      }
+      },
     );
 
     if (createUserDto.delete) {
@@ -126,14 +115,10 @@ export class UsersController {
   })
   @ApiResponse({ status: 403, description: 'No autorizado para actualizar esta información' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  @Put(':uid')
+  @Patch(':uid')
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth()
-  async update(
-    @Param('uid') uid: string,
-    @Body() updateUserDto: UpdateUserDto,
-    @Req() request,
-  ): Promise<User> {
+  async update(@Param('uid') uid: string, @Body() updateUserDto: UpdateUserDto, @Req() request): Promise<User> {
     const userUid = request.user?.uid;
 
     if (userUid !== uid) {

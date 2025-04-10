@@ -7,7 +7,7 @@ import {
   Max,
   Length,
   Matches,
-  IsOptional
+  IsOptional,
 } from 'class-validator';
 
 export class CreateReviewDto {
@@ -16,13 +16,13 @@ export class CreateReviewDto {
     description: 'ID de la solicitud (request) asociada a la reseña',
     required: true,
     minLength: 3,
-    maxLength: 100
+    maxLength: 100,
   })
   @IsString()
   @IsNotEmpty()
   @Length(3, 100)
   @Matches(/^[a-zA-Z0-9\-_]+$/, {
-    message: 'El requestId solo puede contener letras, números, guiones y guiones bajos'
+    message: 'El requestId solo puede contener letras, números, guiones y guiones bajos',
   })
   readonly requestId: string;
 
@@ -31,13 +31,13 @@ export class CreateReviewDto {
     description: 'ID del cliente que dejó la reseña',
     required: true,
     minLength: 3,
-    maxLength: 50
+    maxLength: 50,
   })
   @IsString()
   @IsNotEmpty()
   @Length(3, 50)
   @Matches(/^[a-zA-Z0-9]+$/, {
-    message: 'El clientId solo puede contener letras y números'
+    message: 'El clientId solo puede contener letras y números',
   })
   readonly clientId: string;
 
@@ -46,13 +46,13 @@ export class CreateReviewDto {
     description: 'ID del profesional que realizó el servicio',
     required: true,
     minLength: 3,
-    maxLength: 50
+    maxLength: 50,
   })
   @IsString()
   @IsNotEmpty()
   @Length(3, 50)
   @Matches(/^[a-zA-Z0-9]+$/, {
-    message: 'El professionalId solo puede contener letras y números'
+    message: 'El professionalId solo puede contener letras y números',
   })
   readonly professionalId: string;
 
@@ -61,7 +61,7 @@ export class CreateReviewDto {
     description: 'Puntuación del servicio (1 a 5 estrellas)',
     required: true,
     minimum: 1,
-    maximum: 5
+    maximum: 5,
   })
   @IsNumber()
   @Min(1)
@@ -73,13 +73,13 @@ export class CreateReviewDto {
     description: 'Comentario del cliente sobre el servicio',
     required: true,
     minLength: 10,
-    maxLength: 500
+    maxLength: 500,
   })
   @IsString()
   @IsNotEmpty()
   @Length(10, 500)
   @Matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,;:¡!¿?()\-_]+$/, {
-    message: 'El comentario contiene caracteres no permitidos'
+    message: 'El comentario contiene caracteres no permitidos',
   })
   readonly comment: string;
 }

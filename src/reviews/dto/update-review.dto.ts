@@ -7,7 +7,7 @@ import {
   Max,
   Length,
   Matches,
-  IsNotEmpty
+  IsNotEmpty,
 } from 'class-validator';
 
 export class UpdateReviewDto {
@@ -16,16 +16,16 @@ export class UpdateReviewDto {
     description: 'Comentario actualizado del cliente',
     minLength: 10,
     maxLength: 500,
-    required: false
+    required: false,
   })
   @IsString()
   @IsOptional()
   @IsNotEmpty({ message: 'El comentario no puede estar vacío' })
   @Length(10, 500, {
-    message: 'El comentario debe tener entre 10 y 500 caracteres'
+    message: 'El comentario debe tener entre 10 y 500 caracteres',
   })
   @Matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,;:¡!¿?()\-_]+$/, {
-    message: 'El comentario contiene caracteres no permitidos'
+    message: 'El comentario contiene caracteres no permitidos',
   })
   comment?: string;
 
@@ -34,7 +34,7 @@ export class UpdateReviewDto {
     description: 'Nueva puntuación del servicio (1 a 5 estrellas)',
     minimum: 1,
     maximum: 5,
-    required: false
+    required: false,
   })
   @IsNumber({}, { message: 'La puntuación debe ser un número' })
   @Min(1, { message: 'La puntuación mínima es 1' })

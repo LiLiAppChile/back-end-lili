@@ -13,44 +13,37 @@ export class UsersService {
     if (!data) {
       throw new Error('Los datos del usuario no existen');
     }
-    return new User(
-      doc.id,
-      data.name,
-      data.email,
-      data.phone,
-      data.rut,
-      data.specialties,
-      {
-        createdAt: data.createdAt,
-        delete: data.delete,
-        validUser: data.validUser,
-        region: data.region,
-        commune: data.commune,
-        siiRegistered: data.siiRegistered,
-        siiActivitiesStarted: data.siiActivitiesStarted,
-        hasTools: data.hasTools,
-        ownTransportation: data.ownTransportation,
-        professionalExperience: data.professionalExperience,
-        personalDescription: data.personalDescription,
-        workAreas: data.workAreas,
-        availability: data.availability,
-        profilePicture: data.profilePicture,
-        backgroundCertificate: data.backgroundCertificate,
-        identityCardFront: data.identityCardFront,
-        identityCardBack: data.identityCardBack,
-        additionalCertificate: data.additionalCertificate,
-        contactSource: data.contactSource,
-        status: data.status,
-        bankName: data.bankName,
-        accountType: data.accountType,
-        accountHolderName: data.accountHolderName,
-        accountNumber: data.accountNumber,
-      }
-    );
+    return new User(doc.id, data.name, data.email, data.phone, data.rut, data.specialties, {
+      createdAt: data.createdAt,
+      delete: data.delete,
+      validUser: data.validUser,
+      region: data.region,
+      commune: data.commune,
+      siiRegistered: data.siiRegistered,
+      siiActivitiesStarted: data.siiActivitiesStarted,
+      hasTools: data.hasTools,
+      ownTransportation: data.ownTransportation,
+      professionalExperience: data.professionalExperience,
+      personalDescription: data.personalDescription,
+      workAreas: data.workAreas,
+      availability: data.availability,
+      profilePicture: data.profilePicture,
+      backgroundCertificate: data.backgroundCertificate,
+      identityCardFront: data.identityCardFront,
+      identityCardBack: data.identityCardBack,
+      additionalCertificate: data.additionalCertificate,
+      contactSource: data.contactSource,
+      status: data.status,
+      bankName: data.bankName,
+      accountType: data.accountType,
+      accountHolderName: data.accountHolderName,
+      accountNumber: data.accountNumber,
+    });
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { uid, email, name, phone, rut, specialties, bankName, accountType, accountHolderName, accountNumber } = createUserDto;
+    const { uid, email, name, phone, rut, specialties, bankName, accountType, accountHolderName, accountNumber } =
+      createUserDto;
 
     try {
       const userRef = this.usersCollection.doc(uid);
@@ -153,7 +146,7 @@ export class UsersService {
       };
 
       const filteredUpdateData = Object.fromEntries(
-        Object.entries(updateData).filter(([_, value]) => value !== undefined)
+        Object.entries(updateData).filter(([_, value]) => value !== undefined),
       );
 
       if (Object.keys(filteredUpdateData).length === 0) {
